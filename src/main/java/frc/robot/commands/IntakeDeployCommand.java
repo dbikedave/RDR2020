@@ -8,28 +8,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-// import edu.wpi.first.wpilibj.GenericHID.Hand;
-// mport frc.robot.Robot;
+import frc.robot.Robot;
 
-public class ManualTankDriveCommand extends Command {
-  public ManualTankDriveCommand() {
+public class IntakeDeployCommand extends Command {
+  public IntakeDeployCommand() {
     // Use requires() here to declare subsystem dependencies
-    // requires(Robot.tankDriveSubsystem);
+    requires(Robot.intakeSubsystem);
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-  }
+      Robot.intakeSubsystem.deployPiston();
+    }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
-   // double leftside = -1* Robot.oi.xbox.getY(Hand.kLeft);
-   // double rightside = -1* Robot.oi.xbox.getY(Hand.kRight);
-   // Robot.tankDriveSubsystem.manualTankDrive(leftside, rightside);
 
 
   }
@@ -37,7 +33,7 @@ public class ManualTankDriveCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

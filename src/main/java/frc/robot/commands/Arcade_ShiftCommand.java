@@ -7,14 +7,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-// import edu.wpi.first.wpilibj.GenericHID.Hand;
-// mport frc.robot.Robot;
+import frc.robot.Robot;
 
-public class ManualTankDriveCommand extends Command {
-  public ManualTankDriveCommand() {
+public class Arcade_ShiftCommand extends Command {
+
+  public Value value;
+
+  public Arcade_ShiftCommand(Value value) {
     // Use requires() here to declare subsystem dependencies
-    // requires(Robot.tankDriveSubsystem);
+    requires(Robot.arcadeDriveSubsystem);
+    this.value = value;
+
   }
 
   // Called just before this Command runs the first time
@@ -26,11 +32,10 @@ public class ManualTankDriveCommand extends Command {
   @Override
   protected void execute() {
 
-
-   // double leftside = -1* Robot.oi.xbox.getY(Hand.kLeft);
-   // double rightside = -1* Robot.oi.xbox.getY(Hand.kRight);
-   // Robot.tankDriveSubsystem.manualTankDrive(leftside, rightside);
-
+    double move = -1* Robot.oi.xbox.getY(Hand.kLeft);
+    double turn = Robot.oi.xbox.getX(Hand.kLeft);
+    Robot.arcadeDriveSubsystem.manualArcadeDrive(move, turn);
+    Robot.arcadeDriveSubsystem.shift(value);
 
   }
 
@@ -43,11 +48,13 @@ public class ManualTankDriveCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  }
+    Robot.arcadeDriveSubsystem.stop();
+   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

@@ -7,31 +7,24 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ManualArcadeDriveCommand extends Command {
-  public ManualArcadeDriveCommand() {
+public class cpRetractCommand extends Command {
+  public cpRetractCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.arcadeDriveSubsystem);
+    requires(Robot.controlPanelSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.controlPanelSubsystem.retractPiston();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    
-    double move = -1* Robot.oi.controller.getY(Hand.kLeft);
-    double turn = Robot.oi.controller.getX(Hand.kLeft);
-    Robot.arcadeDriveSubsystem.manualArcadeDrive(move, turn);
-
-  
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -8,30 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-// import edu.wpi.first.wpilibj.GenericHID.Hand;
-// mport frc.robot.Robot;
+import frc.robot.Robot;
 
-public class ManualTankDriveCommand extends Command {
-  public ManualTankDriveCommand() {
+public class cpDeployCommand extends Command {
+  public cpDeployCommand() {
     // Use requires() here to declare subsystem dependencies
-    // requires(Robot.tankDriveSubsystem);
+    requires(Robot.controlPanelSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.controlPanelSubsystem.deployPiston();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
-   // double leftside = -1* Robot.oi.xbox.getY(Hand.kLeft);
-   // double rightside = -1* Robot.oi.xbox.getY(Hand.kRight);
-   // Robot.tankDriveSubsystem.manualTankDrive(leftside, rightside);
-
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

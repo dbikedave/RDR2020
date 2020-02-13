@@ -7,12 +7,14 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualArcadeDriveCommand;
+import frc.robot.commands.Arcade_ShiftCommand;
 
 /**
  * Add your docs here.
@@ -23,24 +25,23 @@ public class ArcadeDriveSubsystem extends Subsystem {
 
   // Instantiate new motor controller objects
   public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.leftMasterPort);
-  public WPI_TalonSRX leftSlave1 = new WPI_TalonSRX(RobotMap.leftSlave1Port);
+  public WPI_TalonSRX leftSlave1 = new WPI_TalonSRX(RobotMap.leftSlavePort);
   public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.rightMasterPort);
-  public WPI_TalonSRX rightSlave1 = new WPI_TalonSRX(RobotMap.righSlave1Port);
+  public WPI_TalonSRX rightSlave1 = new WPI_TalonSRX(RobotMap.righSlavePort);
 
-  // public Spark leftMaster = new Spark(RobotMap.leftMasterPort);
-  // public Spark leftSlave1 = new Spark(RobotMap.leftSlave1Port);
-  // public Spark rightMaster = new Spark(RobotMap.rightMasterPort);
-  // public Spark rightSlave1 = new Spark(RobotMap.righSlave1Port);
-
-  // Technique to combine motors into differential drive
-  // SpeedControllerGroup leftMotorGroup = new SpeedControllerGroup(leftMaster,
-  // leftSlave1, leftSlave2);
-  // SpeedControllerGroup rightMotorGroup = new SpeedControllerGroup(rightMaster,
-  // rightSlave1,rightSlave2);
+  // Instantiate new gearbox Solenoid
+  private final DoubleSolenoid shiftSolenoid = new DoubleSolenoid(RobotMap.GBSlowSolenoidPort, RobotMap.GBFastSolenoidPort);
 
   // Instantiate a new DifferentialDrive objects
   // Assign motor controllers to differential drive
   public DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
+
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+     setDefaultCommand(new Arcade_ShiftCommand(Value.kForward));
+  }
+
 
   // Create constructor Function
   public ArcadeDriveSubsystem() {
@@ -55,22 +56,19 @@ public class ArcadeDriveSubsystem extends Subsystem {
 
     // Max speed for testing mode
     if(move > 0.5) move = .5;
+    if(move < -0.5) move = -.5;
 
-    // Creates deadband for small joystick movements
-    if (Math.abs(move) < 0.10) {
-      move = 0;
-    }
-    if (Math.abs(turn) < 0.10) {
-      turn = 0;
-    }
 
     drive.arcadeDrive(move, turn);
 
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    setDefaultCommand(new ManualArcadeDriveCommand());
+  public void shift(Value value){
+	shiftSolenoid.set(value);
   }
+  
+  public void stop(){
+    drive.arcadeDrive(0, 0);
+  }
+
 }
