@@ -16,7 +16,7 @@ import frc.robot.commands.Arcade_ShiftCommand;
 import frc.robot.commands.IntakeDeployCommand;
 import frc.robot.commands.IntakeMotorCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,11 +26,7 @@ public class OI {
   
   // Controllers
   public Joystick xbox;
-  
-//here's a comment
-//here's another comment
-//here's a third comment
-//last comment
+
   //Xbox Controller Buttons
   public JoystickButton leftBumper;       //port 5
   public JoystickButton rightBumper;      //port 6
@@ -54,9 +50,8 @@ public class OI {
       leftBumper.whenReleased(new Arcade_ShiftCommand(Value.kForward));
 
       rightBumper = new JoystickButton(xbox, 6);
-      leftBumper.whenPressed(new IntakeMotorCommand());
-      leftBumper.whenReleased(new Arcade_ShiftCommand(Value.kForward));
-
+      rightBumper.whenPressed(new IntakeMotorCommand());
+      
       buttonA = new JoystickButton(xbox, 1);
       buttonA.whenPressed(new IntakeDeployCommand());
 
